@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="JPAProject" transaction-type="RESOURCE_LOCAL">
+		<!-- 使用OpenJPA -->
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<!-- 使用Hibernate-JPA <provider>org.hibernate.ejb.HibernatePersistence</provider> -->
+		<!-- 使用EclipseLink <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+		<class>com.he.model.TbDataAuth</class>
+		<properties>
+			<!-- JPA标准配置 使用OpenJPA和EclipseLink时使用 -->
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/yhxy" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="123456" />
+
+
+			<!-- OpenJPA不增强 -->
+			<property name="openjpa.ClassLoadEnhancement" value="false" />
+			<property name="openjpa.DynamicEnhancementAgent" value="false" />
+			<property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
+
+			<!-- Hibernate配置 使用Hibernate的JPA实现时使用 <property name="hibernate.connection.driver_class" 
+				value="com.mysql.jdbc.Driver" /> <property name="hibernate.connection.url" 
+				value="jdbc:mysql://localhost:3306/strongjpa" /> <property name="hibernate.connection.username" 
+				value="root" /> <property name="hibernate.connection.password" value="root" 
+				/> <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" 
+				/> -->
+
+			<!-- 日志的级别 -->
+			<property name="openjpa.Log"
+				value="DefaultLevel=INFO, Runtime=TRACE, Tool=INFO, SQL=TRACE" />
+
+			<property name="openjpa.RemoteCommitProvider" value="sjvm" />
+			<!-- 启用缓存，并且设置缓存的容量为5000，并且禁用软引用容量 -->
+			<property name="openjpa.DataCache" value="true(CacheSize=5000, SoftReferenceSize=100)" />
+			<!-- 启用查询结果缓存，缓存的容量为1000，并且软引用的容量为100 -->
+			<property name="openjpa.QueryCache" value="true(CacheSize=5000, SoftReferenceSize=100)" />
+			<!-- 缓存的数据存储类型 -->
+			<property name="openjpa.QueryCompilationCache" value="true" />
+			<!-- 数据库连接工厂时的属性 QueryTimeout：JDBC驱动执行查询超时的时间，以秒为单位。 PrettyPrint：是否格式化输出SQL语句。 
+				PrettyPrintLineLength：SQL每行输出的最大长度。 -->
+			<property name="openjpa.ConnectionFactoryProperties" value="PrettyPrint=true, PrettyPrintLineLength=100" />
+			<!-- 查询结果一次转化为对象的最多个数，相当于JDBC的结果集对象Statement.set FetchSize。默认为-1，表示所有的查询对象立即初始化；0表示使用JDBC驱动默认的数值 -->
+			<property name="openjpa.FetchBatchSize" value="-1" />
+		</properties>
+	</persistence-unit>
+
+	<!-- <persistence-unit name="mongo-example" transaction-type="RESOURCE_LOCAL"> 
+		<class>model.Order</class> <class>model.OrderLine</class> <class>model.Address</class> 
+		<class>model.Customer</class> <properties> <property name="eclipselink.target-database" 
+		value="org.eclipse.persistence.nosql.adapters.mongo.MongoPlatform"/> <property 
+		name="eclipselink.nosql.connection-spec" value="org.eclipse.persistence.nosql.adapters.mongo.MongoConnectionSpec"/> 
+		<property name="eclipselink.nosql.property.mongo.port" value="27017"/> <property 
+		name="eclipselink.nosql.property.mongo.host" value="localhost"/> <property 
+		name="eclipselink.nosql.property.mongo.db" value="mydb"/> <property name="eclipselink.logging.level" 
+		value="FINEST"/> </properties> </persistence-unit> -->
+</persistence>
